@@ -15,8 +15,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Player = /** @class */ (function (_super) {
     __extends(Player, _super);
-    function Player(pos, vel, acc, velLimit, canvas) {
-        var _this = _super.call(this, pos, vel) || this;
+    function Player(pos, vel, acc, velLimit, size, canvas) {
+        var _this = _super.call(this, pos, vel, size) || this;
         _this.acc = acc;
         _this.velLimit = velLimit;
         _this.canvas = canvas;
@@ -58,13 +58,16 @@ var Player = /** @class */ (function (_super) {
     Player.prototype.draw = function () {
         this.checkPositioningInCanvas();
         this.getCoords();
+        push();
+        fill(255);
         triangle(this.coordinates.r0.x, this.coordinates.r0.y, this.coordinates.r120.x, this.coordinates.r120.y, this.coordinates.r240.x, this.coordinates.r240.y);
         square(this.coordinates.r0.x, this.coordinates.r0.y, 3);
+        pop();
     };
     Player.prototype.getCoords = function () {
         var mouse = createVector(mouseX, mouseY);
         this.facing = p5.Vector.sub(this.pos, mouse).normalize();
-        this.facing.mult(10);
+        this.facing.mult(this.size);
         this.coordinates.r0 = p5.Vector.sub(this.pos, createVector(this.facing.x, this.facing.y));
         this.facing.rotate(120);
         this.coordinates.r120 = p5.Vector.sub(this.pos, createVector(this.facing.x, this.facing.y));
@@ -87,8 +90,9 @@ var Player = /** @class */ (function (_super) {
     };
     Player.prototype.fire = function (environment) {
         var mouse = createVector(mouseX, mouseY);
-        var bullet = new Bullet(this.coordinates.r0, p5.Vector.sub(mouse, this.coordinates.r0), ((this.vel.mag() + this.acc.mag()) > 2 ? (this.vel.mag() + this.acc.mag()) : 2) * 2, environment);
+        var bullet = new Bullet(this.coordinates.r0, p5.Vector.sub(mouse, this.coordinates.r0), 6, ((this.vel.mag() + this.acc.mag()) > 2 ? (this.vel.mag() + this.acc.mag()) : 2) * 2, environment);
         environment.objects.push(bullet);
+        environment.bullets.push(bullet);
     };
     return Player;
 }(GameObject));

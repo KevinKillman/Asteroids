@@ -6,11 +6,12 @@ class Asteroid extends GameObject{
     randNum:number;
     firstVertex:p5.Vector;
     randArray: number[];
+    fillColor: any;//numberValue
     /**
      *
      */
     constructor(pos, vel, canvas) {
-        super(pos, vel);
+        super(pos, vel, 0);
         this.randNum = 8;
         this.randArray = [];
         this.coordinates = [];
@@ -19,17 +20,20 @@ class Asteroid extends GameObject{
         for(let i = 0; i<this.randNum;i++){
             this.randArray.push(random(15,30))
         }
+        this.fillColor = 255
+        this.size = this.getSize();
 
 
     }
-    move(): void {
-        this.checkPositioningInCanvas()
-        this.pos.add(this.vel)
-    }
+
     draw(): void {
+        push()
         beginShape();
+        fill(this.fillColor)
         this.getCoords();
         endShape()
+        pop()
+
     }
 
     getCoords(){
@@ -64,6 +68,27 @@ class Asteroid extends GameObject{
         if(this.pos.y<0){
             this.pos.y = this.canvas.height
         }
+    }
+    hitCheck(object:GameObject){
+        let d = dist(object.pos.x, object.pos.y, this.pos.x, this.pos.y)
+
+    }
+    hit(){
+    }
+    getSize(){
+        return (this.randArray.reduce((prev, cur)=>{
+            if(prev>cur){
+                return prev
+            }else{
+                return cur
+            }
+        })+this.randArray.reduce((prev, cur)=>{
+            if(prev<cur){
+                return prev
+            }else{
+                return cur
+            }
+        }))/2;
     }
 
 }

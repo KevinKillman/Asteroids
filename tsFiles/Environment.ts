@@ -10,6 +10,6 @@ class Environment{
         this.canvas = canvas
     }
     checkCollisions(){
-
+        
     }
 }

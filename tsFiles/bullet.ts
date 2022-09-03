@@ -3,18 +3,19 @@ class Bullet extends GameObject {
     vel: p5.Vector;
     env: Environment;
     speed: number;
+    size: number;
     /**
      *
      */
-    constructor(pos, vel,speed, env) {
-        super(pos, vel);
+    constructor(pos, vel,size, speed, env) {
+        super(pos, vel,size);
         this.vel = this.vel.normalize().mult(speed)
         this.env = env
         
     }
     draw(){
         fill(255,0,0)
-        square(this.pos.x, this.pos.y, 6)
+        square(this.pos.x, this.pos.y, this.size)
     }
     move(){
         this.pos = p5.Vector.add(this.pos, this.vel)
@@ -22,7 +23,7 @@ class Bullet extends GameObject {
     }
     checkDespawn(){
         if(this.checkPositioningInCanvas()){
-            this.env.objects.splice(this.env.objects.indexOf(this),1)
+            this.despawn()
         }
         
     }
@@ -40,5 +41,12 @@ class Bullet extends GameObject {
             return true
         }
         return false
+    }
+    despawn(){
+        if(this.env.objects.length>1){this.env.objects.splice(this.env.objects.indexOf(this),1)}
+        this.env.bullets.splice(this.env.bullets.indexOf(this),1)
+    }
+    detect(asteroid:Asteroid){
+
     }
 }

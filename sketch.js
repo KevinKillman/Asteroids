@@ -3,14 +3,19 @@ let environment;
 let lengthSlider;
 let numberOfRaysSlider;
 let crosshair;
+let c;
+let width;
+let height;
 
 
 function setup() {
-  width = 800
-  height = 800
+  width = windowWidth*.75
+  height = windowHeight*.75
 
   c  = createCanvas(width, height);
-  player = new Player(createVector(width/2, height/2), p5.Vector.random2D(), createVector(0,0),4, c)
+  c.position((windowWidth - width) / 2, (windowHeight - height) / 2)
+
+  player = new Player(createVector(width/2, height/2), p5.Vector.random2D(), createVector(0,0),4,10, c)
   environment= new Environment(c)
   crosshair = new Ray()
   environment.objects.push(player)
@@ -33,13 +38,12 @@ function draw() {
   push()
   crosshair.draw(lengthSlider.value(), numberOfRaysSlider.value())
   pop()
-  environment.checkCollisions()
   environment.objects.forEach(element => {
-    push()
     element.draw()
     element.move()
-    pop()
   });
+  environment.checkCollisions()
+
 
   
 }
@@ -49,4 +53,10 @@ function mouseClicked(){
   player.fire(environment)
 }
 
+function windowResized(){
+  width = windowWidth*.75
+  height = windowHeight*.75
+  resizeCanvas(width,height)
+  c.position((windowWidth - width) / 2, (windowHeight - height) / 2)
+}
 

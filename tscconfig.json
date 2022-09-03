@@ -12,6 +12,6 @@
         "outFile": "./tsc.js",
         "sourceMap": true
     },
-    "include": ["tsFiles/**/*"],
+    "include": ["tsFiles/**/*", "libraries/*.js"],
     "exclude": ["node_modules", "**/*.spec.ts"]
   }

@@ -19,7 +19,7 @@ var Asteroid = /** @class */ (function (_super) {
      *
      */
     function Asteroid(pos, vel, canvas) {
-        var _this = _super.call(this, pos, vel) || this;
+        var _this = _super.call(this, pos, vel, 0) || this;
         _this.randNum = 8;
         _this.randArray = [];
         _this.coordinates = [];
@@ -28,16 +28,17 @@ var Asteroid = /** @class */ (function (_super) {
         for (var i = 0; i < _this.randNum; i++) {
             _this.randArray.push(random(15, 30));
         }
+        _this.fillColor = 255;
+        _this.size = _this.getSize();
         return _this;
     }
-    Asteroid.prototype.move = function () {
-        this.checkPositioningInCanvas();
-        this.pos.add(this.vel);
-    };
     Asteroid.prototype.draw = function () {
+        push();
         beginShape();
+        fill(this.fillColor);
         this.getCoords();
         endShape();
+        pop();
     };
     Asteroid.prototype.getCoords = function () {
         var randVector = createVector(0, -1);
@@ -68,6 +69,28 @@ var Asteroid = /** @class */ (function (_super) {
         if (this.pos.y < 0) {
             this.pos.y = this.canvas.height;
         }
+    };
+    Asteroid.prototype.hitCheck = function (object) {
+        var d = dist(object.pos.x, object.pos.y, this.pos.x, this.pos.y);
+    };
+    Asteroid.prototype.hit = function () {
+    };
+    Asteroid.prototype.getSize = function () {
+        return (this.randArray.reduce(function (prev, cur) {
+            if (prev > cur) {
+                return prev;
+            }
+            else {
+                return cur;
+            }
+        }) + this.randArray.reduce(function (prev, cur) {
+            if (prev < cur) {
+                return prev;
+            }
+            else {
+                return cur;
+            }
+        })) / 2;
     };
     return Asteroid;
 }(GameObject));

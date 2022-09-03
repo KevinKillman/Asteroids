@@ -5,14 +5,15 @@ class Player extends GameObject {
     acc:p5.Vector;
     velLimit: number;
     facing:p5.Vector;
+    size:number;
     coordinates:{
         r0:p5.Vector,
         r120:p5.Vector,
         r240:p5.Vector
     }
     canvas:any;
-    constructor(pos:p5.Vector,vel:p5.Vector,acc:p5.Vector,velLimit: number, canvas){
-        super(pos,vel);
+    constructor(pos:p5.Vector,vel:p5.Vector,acc:p5.Vector,velLimit: number,size:number, canvas){
+        super(pos,vel,size);
         this.acc = acc
         this.velLimit = velLimit
         this.canvas = canvas
@@ -55,13 +56,16 @@ class Player extends GameObject {
     draw(){
         this.checkPositioningInCanvas()
         this.getCoords()
+        push()
+        fill(255)
         triangle(this.coordinates.r0.x,this.coordinates.r0.y ,this.coordinates.r120.x, this.coordinates.r120.y, this.coordinates.r240.x, this.coordinates.r240.y  )
         square(this.coordinates.r0.x,this.coordinates.r0.y, 3)
+        pop()
     }
     getCoords(){
         let mouse = createVector(mouseX, mouseY)
         this.facing = p5.Vector.sub(this.pos,mouse).normalize()
-        this.facing.mult(10)
+        this.facing.mult(this.size)
         this.coordinates.r0 = p5.Vector.sub(this.pos, createVector(this.facing.x, this.facing.y))
         this.facing.rotate(120)
         this.coordinates.r120 = p5.Vector.sub(this.pos, createVector(this.facing.x, this.facing.y))
@@ -87,9 +91,11 @@ class Player extends GameObject {
         let bullet = new Bullet(
             this.coordinates.r0,
             p5.Vector.sub( mouse, this.coordinates.r0),
+            6,
             ((this.vel.mag()+this.acc.mag())>2?(this.vel.mag()+this.acc.mag()):2)*2, 
             environment)
         environment.objects.push(bullet)
+        environment.bullets.push(bullet)
     }
 
 }

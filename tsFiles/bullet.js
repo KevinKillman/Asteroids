@@ -18,15 +18,15 @@ var Bullet = /** @class */ (function (_super) {
     /**
      *
      */
-    function Bullet(pos, vel, speed, env) {
-        var _this = _super.call(this, pos, vel) || this;
+    function Bullet(pos, vel, size, speed, env) {
+        var _this = _super.call(this, pos, vel, size) || this;
         _this.vel = _this.vel.normalize().mult(speed);
         _this.env = env;
         return _this;
     }
     Bullet.prototype.draw = function () {
         fill(255, 0, 0);
-        square(this.pos.x, this.pos.y, 6);
+        square(this.pos.x, this.pos.y, this.size);
     };
     Bullet.prototype.move = function () {
         this.pos = p5.Vector.add(this.pos, this.vel);
@@ -34,7 +34,7 @@ var Bullet = /** @class */ (function (_super) {
     };
     Bullet.prototype.checkDespawn = function () {
         if (this.checkPositioningInCanvas()) {
-            this.env.objects.splice(this.env.objects.indexOf(this), 1);
+            this.despawn();
         }
     };
     Bullet.prototype.checkPositioningInCanvas = function () {
@@ -51,6 +51,14 @@ var Bullet = /** @class */ (function (_super) {
             return true;
         }
         return false;
+    };
+    Bullet.prototype.despawn = function () {
+        if (this.env.objects.length > 1) {
+            this.env.objects.splice(this.env.objects.indexOf(this), 1);
+        }
+        this.env.bullets.splice(this.env.bullets.indexOf(this), 1);
+    };
+    Bullet.prototype.detect = function (asteroid) {
     };
     return Bullet;
 }(GameObject));
