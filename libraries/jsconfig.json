@@ -1,0 +1,13 @@
+{
+  "include": [
+    "*.js",
+    "libraries/*.js",
+    "c:\\Users\\state\\.vscode\\extensions\\samplavigne.p5-vscode-1.2.11\\p5types\\global.d.ts",
+    "Player.ts",
+    "bullet.ts",
+    "GameObject.ts",
+    "Environment.ts",
+    "Asteroid.ts",
+    "Ray.ts"
+  ]
+}

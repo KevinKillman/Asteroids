@@ -1,0 +1,17 @@
+
+
+{
+    "compilerOptions":{
+        "target":"esnext",
+        "watch":true,
+        "lib":["dom", "esnext"],
+        "module": "system",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "outFile": "./tsc.js",
+        "sourceMap": true
+    },
+    "include": ["tsFiles/**/*"],
+    "exclude": ["node_modules", "**/*.spec.ts"]
+  }
